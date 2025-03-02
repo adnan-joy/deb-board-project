@@ -11,3 +11,8 @@ function DynamicDate() {
     document.querySelector('#today p:first-child').innerText = thisDay;
 }
 DynamicDate();
+
+document.getElementById('box-container').addEventListener('click', function() {
+    // Incremental and decremental count
+    
+});
