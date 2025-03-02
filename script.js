@@ -12,7 +12,50 @@ function DynamicDate() {
 }
 DynamicDate();
 
-document.getElementById('box-container').addEventListener('click', function() {
-    // Incremental and decremental count
-    
+// Dynamic color change
+
+const colors = ['#FFDDDD', '#DDFFDD', '#DDDDFF', '#D0FFFF', '#FFFFD0', '#FFD0FF'];
+document.querySelector("#theme-btn img").addEventListener('click', function() {
+    document.body.style.backgroundColor = colors[Math.floor(Math.random() * 6)];
+})
+
+// Activity clear 
+document.querySelector("#activity-log button").addEventListener('click', function(event) {
+    const btn = event.target;
+    btn.parentNode.parentNode.querySelector('#activity-container').innerHTML = '';
+});
+
+// complete button actions
+let count = 0;
+document.getElementById('box-container').addEventListener('click', function(event) {
+    if (event.target.classList.contains('btn')) {
+        count++;
+        let timeAP;
+        if (new Date().getHours() < 12)
+            timeAP = 'AM';
+        else
+            timeAP = 'PM';
+        const time = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()} ${timeAP}`;
+        const btn = event.target;
+        const card = btn.closest('.card');
+        const title = card.querySelector('h4').innerText;
+        // Alert
+        window.alert("Board updated successfully.");
+        if (count === 6)
+            window.alert("Congrats!!! You have completed all the Tasks Assigned.");
+        // Incremental and decremental count
+        const tasksAssigned = document.querySelector("#tasks-assigned h3");
+        const tasksCompleted = document.querySelector("#tasks-completed p");
+        tasksCompleted.innerText = parseInt(tasksCompleted.innerText) + 1;
+        tasksAssigned.innerText = `0${parseInt(tasksAssigned.innerText) - 1}`;
+        // Disable complete button
+        btn.classList.add('text-opacity-50', 'bg-opacity-50');
+        btn.setAttribute('disabled', undefined);
+        // Add activity
+        const activityContainer = document.getElementById('activity-container');
+        const activity = document.createElement('div');
+        activity.classList.add('p-2', 'rounded', 'bg-secondary', 'mx-4');
+        activity.innerText = `You have completed the Task ${title} at ${time}`;
+        activityContainer.appendChild(activity);
+    }
 });
